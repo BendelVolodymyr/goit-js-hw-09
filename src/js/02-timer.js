@@ -74,9 +74,9 @@ doomEl.buttonStartEl.addEventListener('click', onClick);
 
 function onClick() {
   const timeId = setInterval(() => {
+    doomEl.buttonStartEl.setAttribute('disabled', 'true');
     timeData = new Date().getTime();
     if (selectedDate - timeData >= 1000) {
-      doomEl.buttonStartEl.setAttribute('disabled', 'true');
       resultTime = convertMs(selectedDate - timeData);
       doomEl.dataDayEl.textContent = resultTime.days;
       doomEl.dataHoursEl.textContent = resultTime.hours;
