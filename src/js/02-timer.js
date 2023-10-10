@@ -27,14 +27,13 @@ doomEl.buttonStartEl.setAttribute('disabled', 'true');
 flatpickr(doomEl.datetimeEl, options);
 
 let selectedDate = null;
-let timeData = null;
 let resultTime = {};
 
-function valid(selectedDates) {
-  selectedDate = selectedDates[0].getTime();
-  timeData = new Date().getTime();
+function valid([selectedDates]) {
+  selectedDate = selectedDates;
+  var timeInMs = Date.now();
 
-  if (selectedDate > timeData) {
+  if (selectedDate > timeInMs) {
             doomEl.buttonStartEl.removeAttribute('disabled');
             Notiflix.Notify.success('The date is selected');
   } else {
@@ -72,16 +71,19 @@ function convertMs(ms) {
 
 doomEl.buttonStartEl.addEventListener('click', onClick);
 
+function createDataText({ days, hours, minutes, seconds }) {
+      doomEl.dataDayEl.textContent = days;
+      doomEl.dataHoursEl.textContent = hours;
+      doomEl.dataMinutesEl.textContent = minutes;
+      doomEl.dataSecondsEl.textContent = seconds;
+}
 function onClick() {
   const timeId = setInterval(() => {
     doomEl.buttonStartEl.setAttribute('disabled', 'true');
-    timeData = new Date().getTime();
-    if (selectedDate - timeData >= 1000) {
-      resultTime = convertMs(selectedDate - timeData);
-      doomEl.dataDayEl.textContent = resultTime.days;
-      doomEl.dataHoursEl.textContent = resultTime.hours;
-      doomEl.dataMinutesEl.textContent = resultTime.minutes;
-      doomEl.dataSecondsEl.textContent = resultTime.seconds;
+    var timeInMs = Date.now();
+    if (selectedDate - timeInMs >= 1000) {
+      resultTime = convertMs(selectedDate - timeInMs);
+      createDataText(resultTime);
     } else {
       Notiflix.Notify.failure('Time is loose');
       clearTimeout(timeId);
@@ -90,6 +92,4 @@ function onClick() {
     };
   }, 1000);
 };
-
-
-
+ 

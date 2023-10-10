@@ -6,10 +6,13 @@ let colorData;
 
 buttonStartEl.addEventListener('click', onStart);
 buttonStopEl.addEventListener('click', onStop);
+function newAttribute(trueEl, removeEl) {
+trueEl.setAttribute('disabled', 'true');
+  removeEl.removeAttribute('disabled');
+};
 
 function onStart() {
-  buttonStartEl.setAttribute('disabled', 'true');
-  buttonStopEl.removeAttribute('disabled');
+  newAttribute(buttonStartEl, buttonStopEl);
   timerColor = setInterval(() => {
     var colorRandom = getRandomHexColor();
    colorData = localStorage.setItem(LOCAL_KEY, colorRandom);
@@ -20,8 +23,7 @@ function onStart() {
 
 function onStop() {
   clearInterval(timerColor);
-  buttonStopEl.setAttribute('disabled', 'true');
-  buttonStartEl.removeAttribute('disabled');
+  newAttribute(buttonStopEl, buttonStartEl);
   
 }
 
